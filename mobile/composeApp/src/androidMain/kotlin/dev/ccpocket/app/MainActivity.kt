@@ -1,6 +1,7 @@
 package dev.ccpocket.app
 
 import android.Manifest
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,7 +14,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.rememberCoroutineScope
-import dev.ccpocket.app.push.CcPocketMessagingService
 import dev.ccpocket.app.secure.initSecureStore
 import dev.ccpocket.app.telemetry.initTelemetry
 import dev.ccpocket.app.ui.App
@@ -60,7 +60,11 @@ class MainActivity : ComponentActivity() {
     /** Create the push channel up front and request POST_NOTIFICATIONS (Android 13+). The token is only
      *  sent to the relay once notifications are on AND a relay link attaches (see PocketRepository). */
     private fun setupNotifications() {
-        getSystemService(NotificationManager::class.java)?.let(CcPocketMessagingService::ensureChannel)
+        getSystemService(NotificationManager::class.java)?.let { nm ->
+            if (nm.getNotificationChannel("task_complete") == null) {
+                nm.createNotificationChannel(NotificationChannel("task_complete", "Task complete", NotificationManager.IMPORTANCE_HIGH))
+            }
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {

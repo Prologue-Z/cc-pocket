@@ -31,17 +31,6 @@
             </intent-filter>
         </activity>
 
-        <!-- FCM: receives token refreshes + foreground notification messages -->
-        <service
-            android:name=".push.CcPocketMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <!-- channel the system uses to display backgrounded notification messages -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="task_complete" />
+        <!-- FCM disabled on dev branch — no google-services.json -->
     </application>
 </manifest>

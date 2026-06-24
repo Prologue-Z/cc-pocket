@@ -6,8 +6,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.googleServices)
-    alias(libs.plugins.firebaseCrashlytics)
+    // Firebase disabled on dev branch — needs google-services.json from upstream
+    // alias(libs.plugins.googleServices)
+    // alias(libs.plugins.firebaseCrashlytics)
 }
 
 // Single source of truth for the app version: the Android versionName AND the in-app "About" version both
@@ -62,10 +63,11 @@ kotlin {
             implementation(libs.ktor.client.cio)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.cryptography.provider.jdk) // E2E crypto provider (registers on this target)
-            implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation(libs.firebase.analytics)
-            implementation(libs.firebase.crashlytics)
-            implementation(libs.firebase.messaging) // FCM push (task-complete notifications)
+            // Firebase disabled on dev branch — needs google-services.json
+            // implementation(project.dependencies.platform(libs.firebase.bom))
+            // implementation(libs.firebase.analytics)
+            // implementation(libs.firebase.crashlytics)
+            // implementation(libs.firebase.messaging)
             implementation(libs.peekaboo) // image picker + resize (android variant)
         }
         desktopMain.dependencies {
